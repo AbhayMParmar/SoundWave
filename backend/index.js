@@ -11,7 +11,7 @@ import songRoutes from './routes/songRoutes.js';
 import playlistRoutes from './routes/playlistRoutes.js';
 import cloudinary from 'cloudinary';
 import { User } from './models/User.js';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 dotenv.config();
 
