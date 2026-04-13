@@ -1,8 +1,11 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { UserData } from '../../context/User';
 
 const Hero = () => {
+  const { isAuth } = UserData();
+
   return (
     <section 
       className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden"
@@ -30,25 +33,39 @@ const Hero = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-            <Link to="/register">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="bg-[#4ab7e2] text-white font-bold text-lg px-8 py-4 rounded-full w-full sm:w-auto shadow-[0_0_20px_rgba(74,183,226,0.4)] hover:bg-[#5bc1e8] transition-colors"
-              >
-                Sign In
-              </motion.button>
-            </Link>
-            
-            <Link to="/login">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="bg-transparent text-white border-2 border-gray-500 hover:border-white font-bold text-lg px-8 py-4 rounded-full w-full sm:w-auto transition-colors"
-              >
-                Log In
-              </motion.button>
-            </Link>
+            {isAuth ? (
+              <Link to="/home">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="bg-[#4ab7e2] text-white font-bold text-lg px-12 py-4 rounded-full w-full sm:w-auto shadow-[0_0_20px_rgba(74,183,226,0.4)] hover:bg-[#5bc1e8] transition-colors"
+                >
+                  Open Web Player
+                </motion.button>
+              </Link>
+            ) : (
+              <>
+                <Link to="/register">
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="bg-[#4ab7e2] text-white font-bold text-lg px-8 py-4 rounded-full w-full sm:w-auto shadow-[0_0_20px_rgba(74,183,226,0.4)] hover:bg-[#5bc1e8] transition-colors"
+                  >
+                    Sign In
+                  </motion.button>
+                </Link>
+                
+                <Link to="/login">
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="bg-transparent text-white border-2 border-gray-500 hover:border-white font-bold text-lg px-8 py-4 rounded-full w-full sm:w-auto transition-colors"
+                  >
+                    Log In
+                  </motion.button>
+                </Link>
+              </>
+            )}
           </div>
         </motion.div>
       </div>

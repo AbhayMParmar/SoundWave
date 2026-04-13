@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaSpotify, FaBars, FaTimes } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { UserData } from '../../context/User';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('#');
+  const { isAuth, logoutUser } = UserData();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -68,15 +70,25 @@ const Navbar = () => {
           ))}
           
           <div className="flex items-center gap-4 ml-4">
-            <Link to="/register" className="text-gray-300 hover:text-white font-bold transition-colors">
-              Sign In
-            </Link>
-            <Link
-              to="/login"
-              className="bg-white text-black px-6 py-2 rounded-full font-bold hover:scale-105 hover:bg-gray-100 transition-all duration-200"
-            >
-              Log in
-            </Link>
+            {isAuth ? (
+              <>
+                <button onClick={logoutUser} className="text-gray-300 hover:text-white font-bold transition-colors">
+                  Log Out
+                </button>
+                <Link to="/home" className="bg-[#4ab7e2] text-white px-6 py-2 rounded-full font-bold hover:scale-105 hover:bg-[#5bc1e8] transition-all duration-200">
+                  Open App
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link to="/register" className="text-gray-300 hover:text-white font-bold transition-colors">
+                  Sign In
+                </Link>
+                <Link to="/login" className="bg-white text-black px-6 py-2 rounded-full font-bold hover:scale-105 hover:bg-gray-100 transition-all duration-200">
+                  Log in
+                </Link>
+              </>
+            )}
           </div>
         </div>
 
@@ -111,16 +123,25 @@ const Navbar = () => {
               </a>
             ))}
             <div className="w-10 h-[1px] bg-gray-700 my-2"></div>
-            <Link to="/register" className="text-2xl text-gray-300 hover:text-white font-bold" onClick={() => setMobileMenuOpen(false)}>
-              Sign In
-            </Link>
-            <Link
-              to="/login"
-              className="bg-white text-black px-8 py-3 rounded-full text-xl font-bold mt-2"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Log in
-            </Link>
+            {isAuth ? (
+              <>
+                <Link to="/home" className="bg-[#4ab7e2] text-white px-8 py-3 rounded-full text-xl font-bold mt-2" onClick={() => setMobileMenuOpen(false)}>
+                  Open App
+                </Link>
+                <button onClick={() => { logoutUser(); setMobileMenuOpen(false); }} className="text-xl text-gray-400 hover:text-white mt-4">
+                  Log Out
+                </button>
+              </>
+            ) : (
+              <>
+                <Link to="/register" className="text-2xl text-gray-300 hover:text-white font-bold" onClick={() => setMobileMenuOpen(false)}>
+                  Sign In
+                </Link>
+                <Link to="/login" className="bg-white text-black px-8 py-3 rounded-full text-xl font-bold mt-2" onClick={() => setMobileMenuOpen(false)}>
+                  Log in
+                </Link>
+              </>
+            )}
           </motion.div>
         )}
       </AnimatePresence>
