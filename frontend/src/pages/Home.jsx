@@ -44,27 +44,32 @@ const Home = () => {
   }, []);
 
   // Sort songs by createdAt (newest first) and limit to 16
-  const todaysBiggestHits = songs
-    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-    .slice(0, MOBILE_MAX_SONGS);
+  const todaysBiggestHits = Array.isArray(songs) 
+    ? [...songs].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, MOBILE_MAX_SONGS)
+    : [];
+    
   const canShowMoreMobile = todaysBiggestHits.length > MOBILE_INITIAL_SONGS;
 
+  // Safe check for albums
+  const safeAlbums = Array.isArray(albums) ? albums : [];
+
   // Get Shiddat album
-  const shiddatAlbum = albums.find((album) => album.title === "Shiddat");
+  const shiddatAlbum = safeAlbums.find((album) => album.title === "Shiddat");
 
   // Featured Charts - first 4 albums (excluding Emraan Hashmi) plus Shiddat as first item
-  const firstFourAlbums = albums
+  const firstFourAlbums = safeAlbums
     .slice(0, 4)
     .filter((album) => album.title !== "Emraan Hashmi");
+    
   const featuredAlbums = shiddatAlbum
     ? [shiddatAlbum, ...firstFourAlbums]
     : firstFourAlbums;
 
   // New Releases - Single Emraan Hashmi album plus all albums after index 5 (excluding duplicates)
-  const emraanAlbum = albums.find((album) => album.title === "Emraan Hashmi");
+  const emraanAlbum = safeAlbums.find((album) => album.title === "Emraan Hashmi");
   const newReleaseAlbums = [
     ...(emraanAlbum ? [emraanAlbum] : []),
-    ...albums
+    ...safeAlbums
       .slice(5)
       .filter(
         (album) => album.title !== "Emraan Hashmi" && album.title !== "Shiddat"
