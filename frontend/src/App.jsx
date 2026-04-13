@@ -1,6 +1,6 @@
 import React from "react";
 import Login from "./pages/Login";
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Home from "./pages/Home";
 import Register from "./pages/Register";
 import { UserData } from "./context/User";
@@ -20,15 +20,15 @@ function App() {
                 <BrowserRouter>
                     <Routes>
                         <Route path="/" element={isAuth ? <Home /> : <Login />} />
-                        <Route path="/playlist" element={isAuth ? <PlayList user={user} /> : <Login />} />
+                        <Route path="/playlist" element={isAuth ? <PlayList user={user} /> : <Navigate to="/" />} />
                         <Route
                             path="/album/:id"
-                            element={isAuth ? <Album user={user} /> : <Login />}
+                            element={isAuth ? <Album user={user} /> : <Navigate to="/" />}
                         />
-                        <Route path="/admin" element={isAuth ? <Admin /> : <Login />} />
-                        <Route path="/login" element={isAuth ? <Home /> : <Login />} />
-                        <Route path="/register" element={isAuth ? <Home /> : <Register />} />
-                        <Route path="/search" element={<SearchPage />} />
+                        <Route path="/admin" element={isAuth ? <Admin /> : <Navigate to="/" />} />
+                        <Route path="/login" element={isAuth ? <Navigate to="/" /> : <Login />} />
+                        <Route path="/register" element={isAuth ? <Navigate to="/" /> : <Register />} />
+                        <Route path="/search" element={isAuth ? <SearchPage /> : <Navigate to="/" />} />
                     </Routes>
                 </BrowserRouter>
             )}

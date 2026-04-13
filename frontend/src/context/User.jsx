@@ -81,7 +81,7 @@ export const UserProvider = ({ children }) => {
             setUser([]);
             setIsAuth(false);
             closeUserDropdown();
-            window.location.reload();
+            window.location.href = "/";
         } catch (error) {
             toast.error(error.response.data.message);
         }
