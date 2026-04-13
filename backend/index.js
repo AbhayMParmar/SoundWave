@@ -29,9 +29,7 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' 
-    ? false 
-    : ['http://localhost:5173', 'http://localhost:3000'],
+  origin: true, // Allow frontend to communicate on Vercel
   credentials: true
 }));
 app.use(express.json());
@@ -47,7 +45,8 @@ app.use(session({
 }));
 
 // Serve static files from React build in production
-if (process.env.NODE_ENV === 'production') {
+// Disable static serving on Vercel (handled by vercel.json)
+if (process.env.NODE_ENV === 'production' && !process.env.VERCEL) {
   app.use(express.static(path.join(__dirname, '../frontend/dist')));
   
   app.get('*', (req, res) => {
@@ -67,6 +66,8 @@ app.get('/api/health', (req, res) => {
 // MongoDB connection
 mongoose.connect(process.env.MONGODB_URI || process.env.MONGO_URI || 'mongodb://localhost:27017/Spotifyclone', {
   dbName: "Spotifyclone",
+  serverSelectionTimeoutMS: 30000,
+  family: 4, // Force IPv4 to prevent Vercel connection timeouts
 })
   .then(async () => {
     console.log('Connected to MongoDB');
