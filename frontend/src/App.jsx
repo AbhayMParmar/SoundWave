@@ -20,16 +20,17 @@ function App() {
             ) : (
                 <BrowserRouter>
                     <Routes>
-                        <Route path="/" element={isAuth ? <Home /> : <LandingPage />} />
-                        <Route path="/playlist" element={isAuth ? <PlayList user={user} /> : <Navigate to="/" />} />
+                        <Route path="/" element={<LandingPage />} />
+                        <Route path="/home" element={isAuth ? <Home /> : <Navigate to="/login" />} />
+                        <Route path="/playlist" element={isAuth ? <PlayList user={user} /> : <Navigate to="/login" />} />
                         <Route
                             path="/album/:id"
-                            element={isAuth ? <Album user={user} /> : <Navigate to="/" />}
+                            element={isAuth ? <Album user={user} /> : <Navigate to="/login" />}
                         />
-                        <Route path="/admin" element={isAuth ? <Admin /> : <Navigate to="/" />} />
-                        <Route path="/login" element={isAuth ? <Navigate to="/" /> : <Login />} />
-                        <Route path="/register" element={isAuth ? <Navigate to="/" /> : <Register />} />
-                        <Route path="/search" element={isAuth ? <SearchPage /> : <Navigate to="/" />} />
+                        <Route path="/admin" element={isAuth ? <Admin /> : <Navigate to="/login" />} />
+                        <Route path="/login" element={isAuth ? <Navigate to="/home" /> : <Login />} />
+                        <Route path="/register" element={isAuth ? <Navigate to="/home" /> : <Register />} />
+                        <Route path="/search" element={isAuth ? <SearchPage /> : <Navigate to="/login" />} />
                         <Route path="*" element={<Navigate to="/" />} />
                     </Routes>
                 </BrowserRouter>

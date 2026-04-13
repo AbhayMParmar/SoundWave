@@ -32,7 +32,7 @@ export const UserProvider = ({ children }) => {
             setUser(data.user);
             setIsAuth(true);
             setBtnLoading(false);
-            navigate("/");
+            navigate("/home");
             fetchSongs();
             fetchAlbums();
         } catch (error) {
@@ -53,7 +53,7 @@ export const UserProvider = ({ children }) => {
             setUser(data.user);
             setIsAuth(true);
             setBtnLoading(false);
-            navigate("/");
+            navigate("/home");
             fetchSongs();
             fetchAlbums();
         } catch (error) {
